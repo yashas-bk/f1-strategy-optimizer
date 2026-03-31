@@ -205,3 +205,21 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Virtual environment
+venv/
+
+# FastF1 cache (large files, no need to commit)
+data/raw/cache/
+
+# Trained models (use Git LFS or just retrain — more on this later)
+models/*.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
