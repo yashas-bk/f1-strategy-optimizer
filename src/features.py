@@ -150,3 +150,58 @@ FEATURE_COLUMNS = [
 ]
 
 TARGET_COLUMN = "LapTimeSeconds"
+
+# ─────────────────────────────────────────
+# WEEKEND PACE SCORE WEIGHTS
+# ─────────────────────────────────────────
+# Dynamic weighting for the WeekendPaceScore composite feature.
+# Early season (rounds 1–4): rolling form is sparse so FP2/Sprint
+#   gets a higher weight as the primary weekend-specific signal.
+# Late season (round 5+): enough rolling data exists to trust it,
+#   so weight shifts from FP2 to rolling form.
+# FP3/SprintQuali is capped at 0.05 in both regimes because it
+#   is a qualifying-setup session with low predictive value for
+#   race pace specifically.
+#
+# Usage in Phase 2 feature engineering:
+#   weights = get_pace_weights(round_number)
+#   score   = sum(weights[k] * features[k] for k in weights)
+
+PACE_WEIGHTS_EARLY = {          # Rounds 1–4
+    "fp2_long_run":       0.35,
+    "quali_gap_to_pole":  0.20,
+    "rolling_form":       0.18,
+    "driver_skill":       0.10,
+    "fp3_direction":      0.05,
+    "track_character":    0.07,
+    "prev_season":        0.04,
+    "fp1":                0.01,
+}
+
+PACE_WEIGHTS_LATE = {           # Round 5 onwards
+    "fp2_long_run":       0.25,
+    "quali_gap_to_pole":  0.20,
+    "rolling_form":       0.26,
+    "driver_skill":       0.10,
+    "fp3_direction":      0.05,
+    "track_character":    0.07,
+    "prev_season":        0.05,
+    "fp1":                0.02,
+}
+
+SPRINT_WEIGHT_REMAP = {
+    # For sprint weekends, fp2_long_run maps to the Sprint race result
+    # and fp3_direction maps to the Sprint Qualifying result.
+    # Key names stay the same so the score computation is identical.
+    "fp2_long_run":  "sprint_result",
+    "fp3_direction": "sprint_quali_result",
+}
+
+
+def get_pace_weights(round_number: int) -> dict:
+    """
+    Returns the correct WeekendPaceScore weight dict for the given round.
+    Transition point is round 5 — enough rolling form data exists from
+    round 5 onwards to make it a reliable signal.
+    """
+    return PACE_WEIGHTS_LATE if round_number >= 5 else PACE_WEIGHTS_EARLY
