@@ -1,0 +1,25 @@
+EventName,StartingCompounds,Max_HARD,Max_MEDIUM,Max_SOFT
+Abu Dhabi Grand Prix,['MEDIUM'],42.0,26.0,20.0
+Australian Grand Prix,"['MEDIUM', 'SOFT']",47.0,17.0,9.0
+Austrian Grand Prix,['MEDIUM'],32.0,30.0,14.0
+Azerbaijan Grand Prix,"['MEDIUM', 'HARD']",44.0,23.0,
+Bahrain Grand Prix,['SOFT'],27.0,25.0,21.0
+Belgian Grand Prix,"['MEDIUM', 'SOFT']",25.0,32.0,23.0
+British Grand Prix,['MEDIUM'],25.0,32.0,23.0
+Canadian Grand Prix,"['MEDIUM', 'HARD']",52.0,28.0,10.0
+Chinese Grand Prix,['MEDIUM'],42.0,20.0,18.0
+Dutch Grand Prix,"['MEDIUM', 'SOFT']",49.0,31.0,34.0
+Emilia Romagna Grand Prix,"['MEDIUM', 'HARD']",40.0,32.0,8.0
+Hungarian Grand Prix,"['MEDIUM', 'SOFT']",38.0,34.0,15.0
+Italian Grand Prix,"['MEDIUM', 'HARD']",39.0,31.0,9.0
+Japanese Grand Prix,"['MEDIUM', 'SOFT']",31.0,24.0,19.0
+Las Vegas Grand Prix,"['MEDIUM', 'HARD']",33.0,24.0,10.0
+Mexico City Grand Prix,"['MEDIUM', 'SOFT', 'HARD']",45.0,37.0,34.0
+Miami Grand Prix,"['MEDIUM', 'HARD']",43.0,29.0,25.0
+Monaco Grand Prix,"['MEDIUM', 'HARD']",76.0,55.0,30.0
+Qatar Grand Prix,['MEDIUM'],25.0,34.0,19.0
+Saudi Arabian Grand Prix,['MEDIUM'],43.0,32.0,15.0
+Singapore Grand Prix,"['MEDIUM', 'SOFT']",42.0,37.0,27.0
+Spanish Grand Prix,['SOFT'],32.0,28.0,22.0
+São Paulo Grand Prix,"['SOFT', 'MEDIUM']",29.0,34.0,25.0
+United States Grand Prix,"['MEDIUM', 'HARD']",37.0,32.0,28.0
