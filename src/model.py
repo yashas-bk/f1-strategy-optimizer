@@ -226,27 +226,26 @@ def predict_stint(
 
     baseline = base_features.get("FP2LongRunPace", base_features.get("SessionMedianLapTime", 90.0))
 
-    rows = []
-    for i in range(stint_length):
-        lap_num   = start_lap + i
-        tyre_life = start_tyre_life + i
+    lap_nums   = np.arange(start_lap, start_lap + stint_length)
+    tyre_lives = np.arange(start_tyre_life, start_tyre_life + stint_length)
 
-        f = base_features.copy()
-        f["LapNumber"]      = lap_num
-        f["TyreLife"]       = tyre_life
-        f["FuelLoad"]       = 1 - (lap_num / total_laps)
-        f["TrackEvolution"] = lap_num / total_laps
+    # Build all rows at once and call model.predict in a single batch.
+    # This is ~50x faster than calling predict() once per lap in a loop.
+    rows = {col: np.full(stint_length, val) for col, val in base_features.items()}
+    rows["LapNumber"]      = lap_nums
+    rows["TyreLife"]       = tyre_lives
+    rows["FuelLoad"]       = 1 - (lap_nums / total_laps)
+    rows["TrackEvolution"] = lap_nums / total_laps
 
-        rel_pace = predict(f, model)
+    X = pd.DataFrame(rows)[FEATURE_COLUMNS]
+    rel_paces = model.predict(X)
 
-        rows.append({
-            "Lap":                   lap_num,
-            "TyreLife":              tyre_life,
-            "PredictedRelativePace": rel_pace,
-            "PredictedLapTime":      baseline + rel_pace,
-        })
-
-    return pd.DataFrame(rows)
+    return pd.DataFrame({
+        "Lap":                   lap_nums,
+        "TyreLife":              tyre_lives,
+        "PredictedRelativePace": rel_paces,
+        "PredictedLapTime":      baseline + rel_paces,
+    })
 
 
 # ─────────────────────────────────────────

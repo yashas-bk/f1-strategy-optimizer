@@ -228,6 +228,11 @@ def merge_quali_features(race_df: pd.DataFrame,
     available  = [c for c in quali_cols if c in quali_df.columns]
     quali_sub  = quali_df[available].copy()
 
+    # Cap teammate gap at ±1.5s — removes anomalous sessions (crashes, red flags,
+    # mechanical DNFs in quali) where one teammate posts an unrepresentative time.
+    if "QualiTeammateGap" in quali_sub.columns:
+        quali_sub["QualiTeammateGap"] = quali_sub["QualiTeammateGap"].clip(-1.5, 1.5)
+
     return race_df.merge(quali_sub, on=["Driver", "Year", "RoundNumber"], how="left")
 
 
